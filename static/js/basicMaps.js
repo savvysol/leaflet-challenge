@@ -27,9 +27,7 @@ console.log(`
 function basicMap(coords,div='map',zoom=10) {
     var map = L.map(div, {
       center: coords,
-      zoom: zoom,
-      pitch: 60,
-      bearing: -60,
+      zoom: zoom
     })
     return map
 } // END basicMap
@@ -94,11 +92,23 @@ function placeMarker(markerLocation,Map,PopUpLine1='Your Marker',PopUpLine2=mark
 
   }
 
-  function showTiles(Map,collapsed=false) {
-    L.control.layers(Tiles, null, {
+  function showTiles(map,overlays=null,collapsed=false) {
+    L.control.layers(Tiles, overlays, {
         collapsed: collapsed
-      }).addTo(Map);
+      }).addTo(map);
   }
+
+function makeMarkers(locations,titles=locations,Line2=locations) {
+  var markers = []
+  var length = locations.length
+  for (i = 0; i < length; i++) {
+    var msg = `<h3>${titles[i]}</h3><hr><h4>${Line2[i]}</h4>`
+    var marker = L.marker(locations[i]).bindPopup(msg)
+    markers.push(marker)
+  }
+  layer = L.layerGroup(markers)
+  return layer
+}
  
 // ---------- SHOW SOME TILES ------------
  console.log(`
